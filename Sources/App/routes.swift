@@ -1,11 +1,7 @@
 import Vapor
 
 func routes(_ app: Application) throws {
-    app.get { req async in
-        "It works!"
-    }
-
-    app.get("hello") { req async -> String in
-        "Hello, world!"
-    }
+    let liveViewHandler = LiveViewHandler()
+    app.get(use: liveViewHandler.handle)
+    app.webSocket("ws", onUpgrade: liveViewHandler.handleWebSocket)
 }
